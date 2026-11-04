@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BBVA - Simulador de Registro y Onboarding</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bbva-blue: #072146;
+            --bbva-light-blue: #00a3e0;
+            --bbva-bg: #f4f7f9;
+            --accent-orange: #ff6b00;
+            --text-gray: #666;
+            --btn-blue: #004481;
+            --bvs-blue: #005ca9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
+        
+        body {
+            background-color: var(--bbva-bg);
+            height: 100vh; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
+        }
+
+        /* --- DECORACIÓN DE FONDO --- */
+        .bg-shape { position: absolute; border-radius: 50%; z-index: 0; }
+        .bg-shape-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,163,224,0.1) 0%, rgba(244,247,249,0) 70%); top: -100px; left: -100px; }
+        .bg-shape-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(7,33,70,0.05) 0%, rgba(244,247,249,0) 70%); bottom: -150px; right: -100px; }
+
+        /* --- TARJETA DE CONSEJO (Izquierda) --- */
+        .tip-card {
+            position: absolute; left: 2%; top: 50%; transform: translateY(-50%);
+            background: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            width: 240px; border-left: 5px solid var(--accent-orange);
+            z-index: 10; animation: float 4s ease-in-out infinite;
+        }
+        .tip-card i { color: var(--accent-orange); font-size: 24px; margin-bottom: 10px; }
+        .tip-card p { font-size: 13px; color: var(--text-gray); line-height: 1.5; }
+        @keyframes float { 0%, 100% { transform: translateY(-50%); } 50% { transform: translateY(-53%); } }
+
+        /* --- CONTENEDOR CENTRAL --- */
+        .center-container { display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .header-logos { text-align: center; margin-bottom: 15px; }
+        .bbva-logo { color: var(--bbva-blue); font-size: 42px; font-weight: 800; letter-spacing: -2px; line-height: 1; }
+        
+        /* --- CARRUSEL --- */
+        .carousel-viewport {
+            width: 620px; /* Más ancho para el acta */
+            height: 520px; /* Más alto para el acta */
+            position: relative;
+        }
+
+        .slide {
+            position: absolute; width: 100%; height: 100%;
+            background: white; padding: 30px;
+            border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            text-align: center; opacity: 0;
+            transform: translateX(30px) scale(0.98);
+            pointer-events: none; transition: all 0.4s ease;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .slide.active { opacity: 1; transform: translateX(0) scale(1); pointer-events: auto; z-index: 2; }
+
+        h2 { color: var(--bbva-blue); font-size: 22px; margin-bottom: 10px; font-weight: 700; }
+        .subtitle { font-size: 14px; color: var(--text-gray); margin-bottom: 25px; line-height: 1.4; }
+
+        /* Inputs flotantes */
+        .input-group { position: relative; margin-bottom: 20px; text-align: left; }
+        .input-group label {
+            position: absolute; top: -8px; left: 12px;
+            background: white; padding: 0 5px;
+            font-size: 12px; color: var(--bbva-blue); font-weight: 600;
+        }
+        .input-group input {
+            width: 100%; padding: 15px; border: 2px solid #a3b0be;
+            border-radius: 8px; background-color: transparent; font-size: 15px;
+            color: var(--bbva-blue); outline: none; transition: border 0.3s;
+        }
+        .input-group input:focus { border-color: var(--bbva-blue); }
+
+        /* Botones */
+        .btn-blue {
+            background-color: var(--btn-blue); color: white; border: none;
+            padding: 14px 0; border-radius: 8px; font-size: 15px;
+            font-weight: 700; cursor: pointer; width: 100%;
+            transition: background 0.3s;
+        }
+        .btn-blue:hover { background-color: var(--bbva-blue); }
+        .btn-blue:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        .btn-white {
+            background-color: #f4f7f9; color: var(--btn-blue); border: none;
+            padding: 14px 0; border-radius: 8px; font-size: 15px;
+            font-weight: 700; cursor: pointer; width: 100%;
+        }
+
+        .btn-row { display: flex; gap: 15px; }
+        .btn-row .btn-blue, .btn-row .btn-white { flex: 1; }
+
+        /* Texto Azul Clickable */
+        .blue-link {
+            color: var(--bbva-light-blue); font-weight: 700; cursor: pointer; text-decoration: underline;
+        }
+        .blue-link:hover { color: var(--bbva-blue); }
+
+        /* Checkbox */
+        .checkbox-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; text-align: left; position: relative;}
+        .checkbox-row input { width: 20px; height: 20px; margin-top: 3px; cursor: pointer; }
+        .checkbox-row span { font-size: 13px; color: var(--text-gray); line-height: 1.4; }
+
+        /* Flecha animada para el check de términos (Slide 4) */
+        .arrow-terms {
+            position: absolute;
+            right: 50px; bottom: -15px; 
+            font-size: 28px; color: var(--accent-orange);
+            transform: rotate(-45deg); 
+            animation: bounceDiag 1s infinite;
+        }
+        @keyframes bounceDiag {
+            0%, 100% { transform: translate(0, 0) rotate(-45deg); }
+            50% { transform: translate(-5px, -5px) rotate(-45deg); }
+        }
+
+        /* Animación Contraseña */
+        .password-demo {
+            font-size: 32px; font-weight: 700; color: var(--bbva-light-blue);
+            letter-spacing: 3px; margin-bottom: 20px; height: 40px;
+            transition: opacity 0.3s;
+        }
+
+        /* Flecha de registro naranja (Slide 1) */
+        .arrow-orange { position: absolute; right: 150px; top: -25px; font-size: 24px; color: var(--accent-orange); animation: bounceDown 1s infinite; }
+        @keyframes bounceDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+        .register-zone { margin-top: 20px; position: relative; }
+
+        /* Caja de aviso */
+        .alert-box { background: #fff3cd; color: #856404; padding: 10px; border-radius: 6px; font-size: 12px; margin-bottom: 15px; border: 1px solid #ffeeba; text-align: left;}
+
+        /* Controles del Carrusel */
+        .carousel-controls { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 20px; width: 100%; }
+        .nav-btn {
+            background: white; border: none; width: 40px; height: 40px;
+            border-radius: 50%; color: var(--bbva-blue); font-size: 16px;
+            cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s; display: flex; justify-content: center; align-items: center;
+        }
+        .nav-btn:hover { background: var(--bbva-blue); color: white; }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .dots-container { display: flex; gap: 8px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: #d1d9e2; cursor: pointer; transition: all 0.3s; }
+        .dot.active { background: var(--bbva-light-blue); width: 24px; border-radius: 4px; }
+
+        /* =========================================
+           ESTILOS ESPECÍFICOS PARA EL ACTA (SLIDE 8)
+           ========================================= */
+        .acta-container { text-align: left; font-size: 11px; color: #333; height: 100%; display: flex; flex-direction: column;}
+        
+        /* Pestañas del Acta */
+        .acta-tabs { display: flex; gap: 5px; margin-bottom: 15px; }
+        .acta-tab { 
+            padding: 8px 15px; background: #e1e8ed; border-radius: 5px 5px 0 0; 
+            cursor: pointer; font-weight: 700; color: var(--text-gray); font-size: 12px;
+        }
+        .acta-tab.active { background: white; color: var(--bbva-blue); border-top: 3px solid var(--bbva-blue); }
+
+        .acta-page { display: none; flex-grow: 1; overflow-y: auto; padding-right: 5px;}
+        .acta-page.active { display: block; }
+        
+        /* Scrollbar bonito para el acta */
+        .acta-page::-webkit-scrollbar { width: 6px; }
+        .acta-page::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+        /* Encabezados del Acta */
+        .acta-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 15px; }
+        .acta-logo-bbva { font-size: 28px; font-weight: 800; color: #004481; letter-spacing: -1px;}
+        .acta-logo-bvs { text-align: right; }
+        .acta-logo-bvs strong { font-size: 24px; color: var(--bvs-blue); }
+        .acta-logo-bvs span { font-size: 9px; display: block; color: #666; margin-top: -5px;}
+        
+        .acta-title { text-align: center; font-size: 16px; color: #333; margin-bottom: 20px; font-weight: 400; }
+        
+        /* Campos de datos */
+        .acta-data-row { margin-bottom: 10px; font-weight: 700; color: #333; }
+        .acta-data-row span { font-weight: 400; border-bottom: 1px solid #ccc; display: inline-block; width: 200px; margin-left: 10px;}
+        
+        /* Tablas */
+        .acta-table { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11px; }
+        .acta-table th, .acta-table td { border: 1px solid #666; padding: 6px; }
+        .acta-table th { background-color: #4a7ebb; color: white; text-align: center; font-weight: 600; }
+        .acta-table td:nth-child(1) { width: 30%; }
+        .acta-table td:nth-child(2) { width: 20%; }
+        .acta-table td:nth-child(3) { width: 10%; text-align: center; }
+        
+        .acta-obs-box { border: 1px solid #666; padding: 10px; min-height: 80px; margin-top: 10px; font-size: 11px;}
+        .acta-obs-title { background: #a9c2d9; padding: 5px; font-weight: 700; font-size: 11px; margin: -10px -10px 10px -10px; border-bottom: 1px solid #666;}
+        
+        /* Firmas */
+        .acta-firmas { display: flex; justify-content: space-between; margin-top: 40px; text-align: center; font-weight: 700; font-size: 11px;}
+        .firma-line { border-top: 1px solid #333; width: 180px; padding-top: 5px; }
+        
+        .acta-small-text { font-size: 9px; color: #555; line-height: 1.3; text-align: justify; margin-bottom: 10px; }
+        .acta-bold { font-weight: 700; }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+
+    <div class="tip-card">
+        <i class="fa-solid fa-lightbulb"></i>
+        <p id="tip-text"><strong>Consejo:</strong> Sigue los pasos al pie de la letra. En el banco, la seguridad es primero.</p>
+    </div>
+
+    <div class="center-container">
+        <div class="header-logos">
+            <div class="bbva-logo">BBVA</div>
+        </div>
+
+        <div class="carousel-viewport" id="carousel">
+            
+            <!-- SLIDE 1: LOGIN -->
+            <div class="slide active">
+                <i class="fa-solid fa-lock slide-icon" style="font-size: 40px; color: var(--bbva-light-blue); margin-bottom: 15px;"></i>
+                <h2>Acceso con contraseña</h2>
+                <div class="input-group">
+                    <label>Nombre de usuario</label>
+                    <input type="text" value="" readonly style="background: #e6f0ff;">
+                </div>
+                <div class="input-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="passInput" value="">
+                    <i class="fa-regular fa-eye toggle-password" onclick="togglePass()" style="position: absolute; right: 15px; top: 15px; cursor: pointer;"></i>
+                </div>
+                <button class="btn-blue" style="margin-top: 10px;">Aceptar</button>
+                
+                <div class="register-zone">
+                    <div class="arrow-orange"><i class="fa-solid fa-arrow-down"></i></div>
+                    <span style="font-size: 13px; color: var(--text-gray);">¿No tienes cuenta? </span>
+                    <a class="blue-link" onclick="goToSlide(1)">Regístrate</a>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: USUARIO -->
+            <div class="slide">
+                <h2>Introduce tu usuario</h2>
+                <p class="subtitle">Si no lo sabes, pide a alguien de tu equipo que lo busque en el directorio.</p>
+                <div class="input-group">
+                    <label>Usuario</label>
+                    <input type="text" placeholder="P0XXXXXX" id="userInput">
+                </div>
+                <button class="btn-blue" onclick="goToSlide(2)">Validar</button>
+            </div>
+
+            <!-- SLIDE 3: CLAVE -->
+            <div class="slide">
+                <h2>Introduce la clave de activación</h2>
+                <p class="subtitle">Te hemos enviado una clave de activación a tu cuenta de correo<br><strong>ja************@gmail.com</strong></p>
+                <div class="input-group">
+                    <label>Clave de activación</label>
+                    <input type="password" value="••••••••">
+                    <i class="fa-regular fa-eye" style="position: absolute; right: 15px; top: 15px; color: #666;"></i>
+                </div>
+                <div class="btn-row">
+                    <button class="btn-white">Volver a enviar</button>
+                    <button class="btn-blue" onclick="goToSlide(3)">Validar</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: TELÉFONO -->
+            <div class="slide">
+                <h2>Registra tu teléfono móvil</h2>
+                <p class="subtitle" style="font-size: 13px;">Utilizaremos tu número para proteger el acceso a tu cuenta.</p>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <div class="input-group" style="width: 30%; margin-bottom: 0;">
+                        <label>País</label>
+                        <input type="text" value="🇵🇪 +51" readonly style="text-align: center;">
+                    </div>
+                    <div class="input-group" style="width: 70%; margin-bottom: 0;">
+                        <label>Número de teléfono</label>
+                        <input type="text" value="959595514">
+                    </div>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="chkTerms" disabled>
+                    <span>Consiento a que BBVA trate mi teléfono móvil como método alternativo para enviarme la clave OTP... <strong class="blue-link" id="termsLink" onclick="enableCheck()">Términos y condiciones de uso.</strong></span>
+                    
+                    <div class="arrow-terms" id="arrowTerms">
+                        <i class="fa-solid fa-arrow-turn-up"></i>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn-white">Omitir</button>
+                    <button class="btn-blue" id="btnRegisterPhone" onclick="goToSlide(4)" disabled>Registrar</button>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: CONTRASEÑA -->
+            <div class="slide">
+                <h2>Crea tu contraseña</h2>
+                <p class="subtitle">Debe tener exactamente <strong>8 caracteres</strong>.<br>El tip es: 2 letras, 2 números, 2 letras, 2 números.</p>
+                
+                <div class="password-demo" id="passDemo">_ _ _ _ _ _ _ _</div>
+                
+                <div class="alert-box">
+                    <i class="fa-solid fa-circle-info"></i> Ejemplo: Si tu nombre es "ROSA" y tu año favorito es "2008", tu clave sería: <strong>ro20sa08</strong>
+                </div>
+
+                <div class="input-group">
+                    <label>Nueva Contraseña</label>
+                    <input type="password" id="newPassInput" readonly>
+                </div>
+                <button class="btn-blue" onclick="goToSlide(5)">Continuar</button>
+            </div>
+
+            <!-- SLIDE 6: ADVERTENCIA -->
+            <div class="slide">
+                <i class="fa-solid fa-triangle-exclamation slide-icon" style="color: #dc3545; font-size: 50px;"></i>
+                <h2 style="color: #dc3545;">¡Atención!</h2>
+                <p class="subtitle">Una vez creada la contraseña <strong>no la olvides</strong>.<br><br>No intentes registrar tu huella aún, no tienes los permisos y <strong>bloquearás tu cuenta</strong>.</p>
+                <button class="btn-blue" onclick="goToSlide(6)">Entendido</button>
+            </div>
+
+            <!-- SLIDE 7: ZSCALER -->
+            <div class="slide">
+                <h2>Acceso a la Intranet</h2>
+                <p class="subtitle" style="font-size: 13px; text-align: left; margin-bottom: 10px;">
+                    1. Ingresa a la intranet y loguéate con tu usuario y contraseña.<br>
+                    2. Siempre usa el SMS.<br>
+                    3. Llegarás a la ventana de <strong>Zscaler Launch</strong>.<br>
+                    4. Haz clic en "Launch" 2 veces y espera que el icono parpadee.
+                </p>
+                <div class="alert-box" style="background: #d1ecf1; color: #0c5460; border-color: #bee5eb;">
+                    <strong>Estado Zscaler:</strong> Private Access <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i><br>
+                    Internet Security <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i><br>
+                    Digital Experience <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i>
+                </div>
+                <button class="btn-blue" onclick="goToSlide(7)">Siguiente</button>
+            </div>
+
+            <!-- ==============================================
+                 SLIDE 8: FIRMA DE ACTA (RECREACIÓN IDÉNTICA)
+                 ============================================== -->
+            <div class="slide" style="padding: 20px;">
+                <h2 style="font-size: 18px; margin-bottom: 5px;">Firma de Acta</h2>
+                <p class="subtitle" style="font-size: 12px; margin-bottom: 10px;">Haz clic en los botones azules con texto blanco de Google.<br>Completa las 3 páginas del acta a continuación:</p>
+                
+                <!-- Pestañas del Acta -->
+                <div class="acta-tabs">
+                    <div class="acta-tab active" onclick="showActaPage(1)">Página 1: Conformidad</div>
+                    <div class="acta-tab" onclick="showActaPage(2)">Página 2: Información</div>
+                    <div class="acta-tab" onclick="showActaPage(3)">Página 3: Equipos</div>
+                </div>
+
+                <div class="acta-container">
+                    
+                    <!-- PÁGINA 1 DEL ACTA -->
+                    <div class="acta-page active" id="actaPage1">
+                        <div class="acta-header">
+                            <div class="acta-logo-bbva">BBVA</div>
+                            <div class="acta-logo-bvs">
+                                <strong>BVS</strong>
+                                <span>Conocimiento & Tecnología</span>
+                            </div>
+                        </div>
+                        
+                        <div class="acta-title">Acta de conformidad - Atención por Onboarding</div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <div class="acta-data-row">Usuario: <span style="width: 300px;"></span></div>
+                            <div class="acta-data-row">Registro: <span style="width: 300px;"></span></div>
+                            <div class="acta-data-row">Ticket: <span style="width: 300px;"></span></div>
+                            <div class="acta-data-row">Fecha: <span style="width: 300px;"></span></div>
+                        </div>
+
+                        <div style="font-size: 10px; line-height: 1.6; margin-bottom: 20px;">
+                            1. <strong>Perfil de usuario:</strong> Ingreso al equipo microinformático con el perfil correspondiente.<br>
+                            2. <strong>Entorno colaborativo:</strong> Registro y cambio de contraseña del P-registro.<br>
+                            3. <strong>Funcionalidades google:</strong> Validación de los aplicativos como gmail, chat y calendar.<br>
+                            4. <strong>Configuración de zscaler:</strong> Enrolamiento y configuración del agente zscaler.<br>
+                            5. <strong>Conectividad a red BBVA Global:</strong> Validar con el usuario la correcta conectividad a la wifi corporativa de BBVA.
+                        </div>
+
+                        <div class="acta-obs-box" style="height: 120px;">
+                            <div class="acta-obs-title">Observaciones de la atención:</div>
+                        </div>
+
+                        <div class="acta-firmas" style="margin-top: 30px;">
+                            <div class="firma-line">Firma del colaborador</div>
+                            <div class="firma-line">Firma de Soporte Onsite</div>
+                        </div>
+                    </div>
+
+                    <!-- PÁGINA 2 DEL ACTA -->
+                    <div class="acta-page" id="actaPage2">
+                        <div class="acta-bold" style="font-size: 12px; margin-bottom: 10px; text-transform: uppercase;">Información Importante</div>
+                        
+                        <div class="acta-small-text">
+                            <strong>1. Software Estándar en BBVA Perú.</strong> Además del software instalado en el equipo, se le apoyará en la instalación de aplicativos de la intranet corporativa para BBVA Continental...<br><br>
+                            <strong>2. Garantía.</strong> Los equipos cuentan con garantía de 5 años, esta garantía se pierde si el equipo presenta señales de haber tenido un uso inadecuado...<br><br>
+                            <strong>3. Pérdida o Deterioro por uso inadecuado del Equipo.</strong> Es de entera responsabilidad del Colaborador el cuidado del equipo...<br><br>
+                            <strong>4. Hurto o Robo del equipo.</strong> Ante una situación de hurto o robo el colaborador deberá sentar la denuncia en la comisaría respectiva...<br><br>
+                            <strong>5. Ejecución de garantía, pérdida, robo.</strong> Los tiempos de reposición serán en función a los procesos logísticos (reparación o compra)...<br><br>
+                            <strong>6. Con la firma del presente documento.</strong> Usted acepta que el equipo que le es entregado como herramienta de trabajo, debe ser utilizado exclusivamente para el desarrollo de sus funciones laborales...
+                        </div>
+
+                        <div style="margin-top: 30px; font-size: 11px;">
+                            Yo <span style="border-bottom: 1px solid #333; display: inline-block; width: 350px;"></span> , declaro haber leído el<br>
+                            presente documento y estar de acuerdo con TODO su contenido.
+                            <br><br>
+                            Fecha: <span style="border-bottom: 1px solid #333; display: inline-block; width: 80px;"></span> / <span style="border-bottom: 1px solid #333; display: inline-block; width: 80px;"></span> / <span style="border-bottom: 1px solid #333; display: inline-block; width: 80px;"></span>
+                            <br><br>
+                            Registro: <span style="border-bottom: 1px solid #333; display: inline-block; width: 200px;"></span>
+                            <br><br>
+                            Firma: <span style="border-bottom: 1px solid #333; display: inline-block; width: 250px;"></span>
+                        </div>
+                    </div>
+
+                    <!-- PÁGINA 3 DEL ACTA -->
+                    <div class="acta-page" id="actaPage3">
+                        <div style="text-align: center; font-weight: 700; font-size: 12px; margin-bottom: 15px;">
+                            TÉRMINOS Y CONDICIONES DE USO DE EQUIPOS MICROINFORMÁTICOS
+                        </div>
+                        
+                        <div class="acta-small-text">
+                            El presente documento tiene por objetivo explicar a los usuarios los términos y condiciones de uso de los equipos microinformáticos, por lo que es importante la lectura de todo el documento y la firma de aceptación de los términos...
+                            <br><br>
+                            <strong>Lineamientos Generales</strong><br>
+                            Este dispositivo está orientado a brindar portabilidad de archivos, documentos, herramientas de trabajo de sus usuarios y acceso a internet. Su uso en BBVA responde a la necesidad de facilitar las labores...
+                        </div>
+
+                        <div class="acta-bold" style="font-size: 11px; margin: 15px 0 5px 0;">Contenido de la Entrega:</div>
+                        
+                        <table class="acta-table">
+                            <thead>
+                                <tr>
+                                    <th>Tipo de Equipo</th>
+                                    <th>Placa / Serie</th>
+                                    <th>Check</th>
+                                    <th>Observación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Desktop</td><td></td><td></td><td></td></tr>
+                                <tr><td>Laptop</td><td></td><td><i class="fa-solid fa-check" style="color: #004481; font-size: 14px;"></i></td><td></td></tr>
+                                <tr><td>Mochila o maletin</td><td></td><td><i class="fa-solid fa-check" style="color: #004481; font-size: 14px;"></i></td><td></td></tr>
+                                <tr><td>Cargador de corriente</td><td></td><td><i class="fa-solid fa-check" style="color: #004481; font-size: 14px;"></i></td><td></td></tr>
+                                <tr><td>Cadena de Seguridad</td><td></td><td></td><td></td></tr>
+                                <tr><td>Adaptador</td><td></td><td><i class="fa-solid fa-check" style="color: #004481; font-size: 14px;"></i></td><td></td></tr>
+                                <tr><td>Mouse alámbrico</td><td></td><td></td><td></td></tr>
+                                <tr><td>Mouse inalámbrico</td><td></td><td><i class="fa-solid fa-check" style="color: #004481; font-size: 14px;"></i></td><td></td></tr>
+                                <tr><td>Auriculares alámbricos</td><td></td><td><i class="fa-solid fa-check" style="color: #004481; font-size: 14px;"></i></td><td></td></tr>
+                                <tr><td>Auriculares inalámbricos</td><td></td><td></td><td></td></tr>
+                                <tr><td>Otro</td><td></td><td></td><td></td></tr>
+                            </tbody>
+                        </table>
+
+                        <div style="margin-top: 15px; width: 50%;">
+                            <table class="acta-table">
+                                <tr><td style="font-weight: 700;">Ticket</td><td></td></tr>
+                                <tr><td style="font-weight: 700;">Registro</td><td><i class="fa-regular fa-user" style="color: #004481;"></i></td></tr>
+                                <tr><td style="font-weight: 700;">Firma</td><td></td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <button class="btn-blue" style="margin-top: 15px; padding: 10px;" onclick="alert('¡Felicidades! Has completado el proceso de inducción y firmado el acta.')">Finalizar Simulación</button>
+            </div>
+
+        </div>
+
+        <!-- Controles -->
+        <div class="carousel-controls">
+            <button class="nav-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="dots-container" id="dotsContainer"></div>
+            <button class="nav-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const tipText = document.getElementById('tip-text');
+        const arrowTerms = document.getElementById('arrowTerms');
+
+        const tips = [
+            "Ingresa con tu usuario asignado. Si no lo tienes, consulta con tu equipo.",
+            "Recuerda que es un cero, se le suele llamar P0, usuario o registro. Es tu ID dentro del banco.", 
+            "Tu correo debe de coincidir con las letras con que empieza.", 
+            "Haz clic primero en el texto azul 'Términos y condiciones' para desbloquear el check.", 
+            "Sigue la regla: 2 letras, 2 números, 2 letras, 2 números. ¡No la olvides!",
+            "No intentes registrar huella en este paso, podrías bloquear tu cuenta temporalmente.",
+            "Asegúrate de que Zscaler muestre 'ON' en verde antes de abrir la intranet.",
+            "Revisa las 3 páginas del acta. Usa el archivo 'info laptop' del escritorio para llenar la serie."
+        ];
+
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll('.dot');
+
+        function goToSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+
+            currentSlide = index;
+
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            tipText.innerHTML = `<strong>Consejo:</strong> ${tips[currentSlide]}`;
+
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+
+            if (index === 4) {
+                animatePassword();
+            }
+        }
+
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        function enableCheck() {
+            const chk = document.getElementById('chkTerms');
+            const btn = document.getElementById('btnRegisterPhone');
+            chk.disabled = false;
+            
+            if(arrowTerms) {
+                arrowTerms.style.display = 'none';
+            }
+
+            chk.addEventListener('change', function() {
+                btn.disabled = !this.checked;
+            });
+        }
+
+        function animatePassword() {
+            const demo = document.getElementById('passDemo');
+            const input = document.getElementById('newPassInput');
+            const targetText = "ro20sa08"; 
+            let i = 0;
+            
+            demo.innerHTML = "_ _ _ _ _ _ _ _";
+            input.value = "";
+            
+            const interval = setInterval(() => {
+                if (i < targetText.length) {
+                    let currentDisplay = demo.innerHTML.split(' ');
+                    currentDisplay[i] = targetText[i];
+                    demo.innerHTML = currentDisplay.join(' ');
+                    
+                    input.value += targetText[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 400);
+        }
+
+        function togglePass() {
+            const input = document.getElementById('passInput');
+            const icon = document.querySelector('.toggle-password');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // FUNCIÓN PARA CAMBIAR DE PESTAÑA EN EL ACTA
+        function showActaPage(pageNumber) {
+            // Ocultar todas las páginas
+            document.getElementById('actaPage1').classList.remove('active');
+            document.getElementById('actaPage2').classList.remove('active');
+            document.getElementById('actaPage3').classList.remove('active');
+            
+            // Quitar clase active de las pestañas
+            document.querySelectorAll('.acta-tab').forEach(tab => tab.classList.remove('active'));
+
+            // Mostrar la página seleccionada
+            document.getElementById('actaPage' + pageNumber).classList.add('active');
+            
+            // Activar la pestaña clickeada
+            document.querySelectorAll('.acta-tab')[pageNumber - 1].classList.add('active');
+        }
+
+        prevBtn.disabled = true;
+    </script>
+</body>
+</html>
