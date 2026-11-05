@@ -6,637 +6,227 @@
     --text-gray: #666;
     --btn-blue: #004481;
     --bvs-blue: #005ca9;
+    --danger-red: #dc3545;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans', sans-serif;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Open Sans', sans-serif; }
 
 body {
     background-color: var(--bbva-bg);
     height: 100vh;
     overflow: hidden;
-    /* Evita scroll global */
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
 }
 
-/* --- BANNER DE ADVERTENCIA --- */
+/* --- CLASES UTILITARIAS --- */
+.mt-5 { margin-top: 5px; }
+.w-30 { width: 30%; margin-bottom: 0; }
+.w-70 { width: 70%; margin-bottom: 0; }
+.text-center { text-align: center; }
+.text-small { font-size: 12px; color: var(--text-gray); }
+.text-xs { font-size: 10px; color: var(--text-gray); }
+.text-left { text-align: left; margin-bottom: 10px; font-size: 12px; }
+.text-danger { color: var(--danger-red); }
+.text-normal { font-weight: normal !important; }
+.text-uppercase { text-transform: uppercase; font-size: 12px; margin-bottom: 10px; }
+
+/* --- BANNER Y BOTÓN INTRANET --- */
 .warning-banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #ffeeba;
-    color: #856404;
-    text-align: center;
-    padding: 8px;
-    font-size: 13px;
-    font-weight: 700;
-    z-index: 100;
-    border-bottom: 2px solid #ffc107;
+    position: absolute; top: 0; left: 0; width: 100%;
+    background-color: #ffeeba; color: #856404;
+    text-align: center; padding: 8px; font-size: 13px; font-weight: 700;
+    z-index: 100; border-bottom: 2px solid #ffc107;
 }
 
-/* --- BOTÓN INTRANET REAL --- */
 .btn-intranet {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: #dc3545;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 14px;
-    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
-    z-index: 100;
-    transition: transform 0.2s, background 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    position: absolute; bottom: 20px; right: 20px;
+    background-color: var(--danger-red); color: white;
+    padding: 10px 20px; border-radius: 8px; text-decoration: none;
+    font-weight: 700; font-size: 14px; box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+    z-index: 100; transition: transform 0.2s, background 0.2s;
+    display: flex; align-items: center; gap: 8px;
 }
-
-.btn-intranet:hover {
-    background-color: #c82333;
-    transform: scale(1.05);
-}
+.btn-intranet:hover { background-color: #c82333; transform: scale(1.05); }
 
 /* --- DECORACIÓN DE FONDO --- */
-.bg-shape {
-    position: absolute;
-    border-radius: 50%;
-    z-index: 0;
-}
+.bg-shape { position: absolute; border-radius: 50%; z-index: 0; }
+.bg-shape-1 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,163,224,0.1) 0%, rgba(244,247,249,0) 70%); top: -100px; left: -100px; }
+.bg-shape-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(7,33,70,0.05) 0%, rgba(244,247,249,0) 70%); bottom: -150px; right: -100px; }
 
-.bg-shape-1 {
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0, 163, 224, 0.1) 0%, rgba(244, 247, 249, 0) 70%);
-    top: -100px;
-    left: -100px;
-}
-
-.bg-shape-2 {
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(7, 33, 70, 0.05) 0%, rgba(244, 247, 249, 0) 70%);
-    bottom: -150px;
-    right: -100px;
-}
-
-/* --- CONTENEDOR PRINCIPAL COMPACTO --- */
+/* --- LAYOUT PRINCIPAL --- */
 .main-layout {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-    z-index: 10;
-    width: 100%;
-    max-width: 1000px;
-    padding: 0 20px;
-    margin-top: 30px;
-    /* Espacio por el banner */
+    display: flex; align-items: center; justify-content: center;
+    gap: 30px; z-index: 10; width: 100%; max-width: 1000px;
+    padding: 0 20px; margin-top: 30px;
 }
 
-/* --- TARJETA DE CONSEJO (Izquierda) --- */
+/* --- TARJETA DE CONSEJO --- */
 .tip-card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    width: 220px;
-    border-left: 4px solid var(--accent-orange);
+    background: white; padding: 15px; border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    width: 220px; border-left: 4px solid var(--accent-orange);
     animation: float 4s ease-in-out infinite;
-    flex-shrink: 0;
-    position: absolute;
-    top: 50%;
-    left: 100px;
+    flex-shrink: 0; position: absolute; top: 50%; left: 100px;
 }
+.tip-card i { color: var(--accent-orange); font-size: 20px; margin-bottom: 8px; }
+.tip-card p { font-size: 12px; color: var(--text-gray); line-height: 1.4; }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-.tip-card i {
-    color: var(--accent-orange);
-    font-size: 20px;
-    margin-bottom: 8px;
-}
+/* --- COLUMNA CENTRAL --- */
+.center-column { display: flex; flex-direction: column; align-items: center; flex-grow: 1; }
+.header-logos { text-align: center; margin-bottom: 10px; }
+.bbva-logo { color: var(--bbva-blue); font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1; }
+.subtitle-top { color: var(--bbva-blue); font-size: 16px; font-weight: 700; margin-top: 2px; }
 
-.tip-card p {
-    font-size: 12px;
-    color: var(--text-gray);
-    line-height: 1.4;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-/* --- COLUMNA CENTRAL (Logos + Carrusel) --- */
-.center-column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-}
-
-.header-logos {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.bbva-logo {
-    color: var(--bbva-blue);
-    font-size: 36px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    line-height: 1;
-}
-
-.subtitle-top {
-    color: var(--bbva-blue);
-    font-size: 16px;
-    font-weight: 700;
-    margin-top: 2px;
-}
-
-/* --- CARRUSEL COMPACTO --- */
-.carousel-viewport {
-    width: 520px;
-    height: 440px;
-    position: relative;
-}
-
+/* --- CARRUSEL --- */
+.carousel-viewport { width: 520px; height: 440px; position: relative; }
 .slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    text-align: center;
-    opacity: 0;
-    transform: translateX(20px) scale(0.98);
-    pointer-events: none;
-    transition: all 0.4s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    position: absolute; width: 100%; height: 100%;
+    background: white; padding: 20px; border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    text-align: center; opacity: 0; transform: translateX(20px) scale(0.98);
+    pointer-events: none; transition: all 0.4s ease;
+    display: flex; flex-direction: column; justify-content: center;
 }
+.slide.active { opacity: 1; transform: translateX(0) scale(1); pointer-events: auto; z-index: 2; }
 
-.slide.active {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-    pointer-events: auto;
-    z-index: 2;
-}
+h2 { color: var(--bbva-blue); font-size: 18px; margin-bottom: 8px; font-weight: 700; }
+.subtitle { font-size: 13px; color: var(--text-gray); margin-bottom: 15px; line-height: 1.3; }
 
-h2 {
-    color: var(--bbva-blue);
-    font-size: 18px;
-    margin-bottom: 8px;
-    font-weight: 700;
-}
+/* --- ICONOS DE SLIDES --- */
+.icon-main-lock { font-size: 35px; color: var(--bbva-light-blue); margin-bottom: 10px; }
+.icon-warning { color: var(--danger-red); font-size: 45px; margin-bottom: 10px; }
+.eye-icon { position: absolute; right: 10px; top: 10px; cursor: pointer; color: #666; }
 
-.subtitle {
-    font-size: 13px;
-    color: var(--text-gray);
-    margin-bottom: 15px;
-    line-height: 1.3;
-}
-
-/* Inputs Compactos */
-.input-group {
-    position: relative;
-    margin-bottom: 15px;
-    text-align: left;
-}
-
+/* --- INPUTS --- */
+.input-group { position: relative; margin-bottom: 15px; text-align: left; }
 .input-group label {
-    position: absolute;
-    top: -7px;
-    left: 10px;
-    background: white;
-    padding: 0 4px;
-    font-size: 11px;
-    color: var(--bbva-blue);
-    font-weight: 600;
+    position: absolute; top: -7px; left: 10px; background: white;
+    padding: 0 4px; font-size: 11px; color: var(--bbva-blue); font-weight: 600;
 }
-
 .input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #a3b0be;
-    border-radius: 6px;
-    background-color: transparent;
-    font-size: 14px;
-    color: var(--bbva-blue);
-    outline: none;
-    transition: border 0.3s;
+    width: 100%; padding: 10px; border: 2px solid #a3b0be;
+    border-radius: 6px; background-color: transparent; font-size: 14px;
+    color: var(--bbva-blue); outline: none; transition: border 0.3s;
 }
+.input-group input:focus { border-color: var(--bbva-blue); }
+.input-readonly { background: #e6f0ff !important; }
 
-.input-group input:focus {
-    border-color: var(--bbva-blue);
-}
+.phone-row { display: flex; gap: 8px; margin-bottom: 10px; }
 
-/* Botones Compactos */
+/* --- BOTONES --- */
 .btn-blue {
-    background-color: var(--btn-blue);
-    color: white;
-    border: none;
-    padding: 10px 0;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    width: 100%;
-    transition: background 0.3s;
+    background-color: var(--btn-blue); color: white; border: none;
+    padding: 10px 0; border-radius: 6px; font-size: 14px;
+    font-weight: 700; cursor: pointer; width: 100%; transition: background 0.3s;
 }
-
-.btn-blue:hover {
-    background-color: var(--bbva-blue);
-}
-
-.btn-blue:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
+.btn-blue:hover { background-color: var(--bbva-blue); }
+.btn-blue:disabled { background-color: #ccc; cursor: not-allowed; }
 
 .btn-white {
-    background-color: #f4f7f9;
-    color: var(--btn-blue);
-    border: none;
-    padding: 10px 0;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    width: 100%;
+    background-color: #f4f7f9; color: var(--btn-blue); border: none;
+    padding: 10px 0; border-radius: 6px; font-size: 14px;
+    font-weight: 700; cursor: pointer; width: 100%;
 }
+.btn-row { display: flex; gap: 10px; }
+.btn-row .btn-blue, .btn-row .btn-white { flex: 1; }
 
-.btn-row {
-    display: flex;
-    gap: 10px;
-}
+/* --- TEXTOS Y CHECKBOX --- */
+.blue-link { color: var(--bbva-light-blue); font-weight: 700; cursor: pointer; text-decoration: underline; }
+.blue-link:hover { color: var(--bbva-blue); }
 
-.btn-row .btn-blue,
-.btn-row .btn-white {
-    flex: 1;
-}
+.checkbox-row { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 15px; text-align: left; position: relative; }
+.checkbox-row input { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; }
+.checkbox-row span { font-size: 12px; color: var(--text-gray); line-height: 1.3; }
 
-/* Texto Azul Clickable */
-.blue-link {
-    color: var(--bbva-light-blue);
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: underline;
-}
+/* --- FLECHAS ANIMADAS --- */
+.arrow-terms { position: absolute; right: 80px; bottom: -30px; font-size: 24px; color: var(--accent-orange); animation: bounceDiag 1s infinite; }
+@keyframes bounceDiag { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
 
-.blue-link:hover {
-    color: var(--bbva-blue);
-}
+.arrow-orange { position: absolute; right: 36%; top: 20px; font-size: 30px; color: var(--accent-orange); animation: bounceDown 1s infinite; }
+@keyframes bounceDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+.register-zone { margin-top: 15px; position: relative; }
 
-/* Checkbox */
-.checkbox-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 15px;
-    text-align: left;
-    position: relative;
-}
+/* --- ALERTAS Y DEMÁS --- */
+.alert-box { background: #fff3cd; color: #856404; padding: 8px; border-radius: 6px; font-size: 11px; margin-bottom: 12px; border: 1px solid #ffeeba; text-align: left; }
+.alert-info { background: #d1ecf1; color: #0c5460; border-color: #bee5eb; }
+.icon-on { color: #10b981; }
 
-.checkbox-row input {
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
-    cursor: pointer;
-}
+.password-demo { font-size: 26px; font-weight: 700; color: var(--bbva-light-blue); letter-spacing: 2px; margin-bottom: 15px; height: 30px; }
 
-.checkbox-row span {
-    font-size: 12px;
-    color: var(--text-gray);
-    line-height: 1.3;
-}
-
-/* Flecha animada para el check */
-.arrow-terms {
-    position: absolute;
-    right: 80px;
-    bottom: -30px;
-    font-size: 24px;
-    color: var(--accent-orange);
-    animation: bounceDiag 1s infinite;
-}
-
-@keyframes bounceDiag {
-
-    0%,
-    100% {
-        transform: translateY(0)
-    }
-
-    50% {
-        transform: translateY(5px)
-    }
-}
-
-/* Animación Contraseña */
-.password-demo {
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--bbva-light-blue);
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    height: 30px;
-}
-
-/* Flecha de registro naranja */
-.arrow-orange {
-    position: absolute;
-    right: 36%;
-    top: 20px;
-    font-size: 30px;
-    color: var(--accent-orange);
-    animation: bounceDown 1s infinite;
-}
-
-@keyframes bounceDown {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(5px);
-    }
-}
-
-.register-zone {
-    margin-top: 15px;
-    position: relative;
-}
-
-/* Caja de aviso */
-.alert-box {
-    background: #fff3cd;
-    color: #856404;
-    padding: 8px;
-    border-radius: 6px;
-    font-size: 11px;
-    margin-bottom: 12px;
-    border: 1px solid #ffeeba;
-    text-align: left;
-}
-
-/* Controles del Carrusel */
-.carousel-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 15px;
-    width: 100%;
-}
-
+/* --- CONTROLES DEL CARRUSEL --- */
+.carousel-controls { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 15px; width: 100%; }
 .nav-btn {
-    background: white;
-    border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    color: var(--bbva-blue);
-    font-size: 14px;
-    cursor: pointer;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background: white; border: none; width: 35px; height: 35px;
+    border-radius: 50%; color: var(--bbva-blue); font-size: 14px;
+    cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s; display: flex; justify-content: center; align-items: center;
 }
-
-.nav-btn:hover {
-    background: var(--bbva-blue);
-    color: white;
-}
-
-.nav-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.dots-container {
-    display: flex;
-    gap: 6px;
-}
-
-.dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #d1d9e2;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.dot.active {
-    background: var(--bbva-light-blue);
-    width: 20px;
-    border-radius: 4px;
-}
+.nav-btn:hover { background: var(--bbva-blue); color: white; }
+.nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.dots-container { display: flex; gap: 6px; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: #d1d9e2; cursor: pointer; transition: all 0.3s; }
+.dot.active { background: var(--bbva-light-blue); width: 20px; border-radius: 4px; }
 
 /* =========================================
-    ESTILOS DEL ACTA (HOJA A4 COMPACTA)
-    ========================================= */
+   ESTILOS DEL ACTA (HOJA A4 COMPACTA)
+   ========================================= */
+.slide-acta { padding: 15px; }
+.acta-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.h2-acta { font-size: 15px; margin-bottom: 0; }
+
 .acta-container {
-    text-align: left;
-    font-size: 10px;
-    color: #333;
-    height: 85%;
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    padding: 5px;
+    text-align: left; font-size: 10px; color: #333;
+    flex: 1; /* Optimizado para adaptarse sin scroll */
+    min-height: 0;
+    display: flex; flex-direction: column;
+    background: #fff; padding: 5px;
 }
 
-.acta-tabs {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 10px;
-}
+.acta-tabs { display: flex; gap: 4px; margin-bottom: 10px; }
+.acta-tab { padding: 6px 12px; background: #e1e8ed; border-radius: 4px 4px 0 0; cursor: pointer; font-weight: 700; color: var(--text-gray); font-size: 11px; }
+.acta-tab.active { background: white; color: var(--bbva-blue); border-top: 2px solid var(--bbva-blue); }
 
-.acta-tab {
-    padding: 6px 12px;
-    background: #e1e8ed;
-    border-radius: 4px 4px 0 0;
-    cursor: pointer;
-    font-weight: 700;
-    color: var(--text-gray);
-    font-size: 11px;
-}
+.acta-page { display: none; flex-grow: 1; overflow-y: auto; padding-right: 5px; background: #fdfdfd; border: 1px solid #ddd; padding: 15px; box-shadow: inset 0 0 10px rgba(0,0,0,0.02); }
+.acta-page.active { display: block; }
+.acta-page::-webkit-scrollbar { width: 4px; }
+.acta-page::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
 
-.acta-tab.active {
-    background: white;
-    color: var(--bbva-blue);
-    border-top: 2px solid var(--bbva-blue);
-}
+.acta-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #004481; padding-bottom: 5px; margin-bottom: 15px; }
+.acta-logo-bbva { font-size: 26px; font-weight: 800; color: #004481; letter-spacing: -1px; }
+.acta-logo-bvs { text-align: right; }
+.acta-logo-bvs strong { font-size: 22px; color: var(--bvs-blue); }
+.acta-logo-bvs span { font-size: 8px; display: block; color: #666; margin-top: -3px; }
 
-/* Contenedor que simula la hoja A4 */
-.acta-page {
-    display: none;
-    flex-grow: 1;
-    overflow-y: auto;
-    padding-right: 5px;
-    background: #fdfdfd;
-    border: 1px solid #ddd;
-    padding: 15px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
-}
+.acta-title { text-align: center; font-size: 14px; color: #333; margin-bottom: 15px; font-weight: 700; text-transform: uppercase; }
 
-.acta-page.active {
-    display: block;
-}
+.acta-data-group { margin-bottom: 15px; }
+.acta-data-row { margin-bottom: 8px; font-weight: 700; color: #333; font-size: 11px; }
+.acta-data-row span { font-weight: 400; border-bottom: 1px solid #999; display: inline-block; width: 270px; margin-left: 5px; }
 
-.acta-page::-webkit-scrollbar {
-    width: 4px;
-}
+.acta-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10px; }
+.acta-table th, .acta-table td { border: 1px solid #999; padding: 5px; }
+.acta-table th { background-color: #4a7ebb; color: white; text-align: center; font-weight: 600; }
+.acta-table-container { margin-top: 10px; width: 60%; }
+.acta-table-label { font-weight: 700; width: 30%; }
+.acta-table-center { text-align: center; color: #999; }
+.check-icon { color: #004481; font-size: 12px; }
 
-.acta-page::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 2px;
-}
+.acta-obs-box { border: 1px solid #999; padding: 10px; min-height: 80px; margin-top: 15px; }
+.acta-obs-title { background: #e1e8ed; padding: 5px; font-weight: 700; margin: -10px -10px 10px -10px; border-bottom: 1px solid #999; font-size: 11px; }
 
-.acta-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #004481;
-    padding-bottom: 5px;
-    margin-bottom: 15px;
-}
+.acta-small-text { font-size: 9px; color: #444; line-height: 1.4; text-align: justify; margin-bottom: 10px; }
+.acta-bold { font-weight: 700; font-size: 11px; margin-bottom: 5px; display: block; }
+.acta-declaration { margin-top: 20px; font-size: 9px; line-height: 1.6; }
+.acta-list { font-size: 10px; line-height: 1.6; margin-bottom: 15px; padding-left: 10px; }
 
-.acta-logo-bbva {
-    font-size: 26px;
-    font-weight: 800;
-    color: #004481;
-    letter-spacing: -1px;
-}
-
-.acta-logo-bvs {
-    text-align: right;
-}
-
-.acta-logo-bvs strong {
-    font-size: 22px;
-    color: var(--bvs-blue);
-}
-
-.acta-logo-bvs span {
-    font-size: 8px;
-    display: block;
-    color: #666;
-    margin-top: -3px;
-}
-
-.acta-title {
-    text-align: center;
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 15px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.acta-data-row {
-    margin-bottom: 8px;
-    font-weight: 700;
-    color: #333;
-    font-size: 11px;
-}
-
-.acta-data-row span {
-    font-weight: 400;
-    border-bottom: 1px solid #999;
-    display: inline-block;
-    width: 270px;
-    margin-left: 5px;
-}
-
-.acta-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-    font-size: 10px;
-}
-
-.acta-table th,
-.acta-table td {
-    border: 1px solid #999;
-    padding: 5px;
-}
-
-.acta-table th {
-    background-color: #4a7ebb;
-    color: white;
-    text-align: center;
-    font-weight: 600;
-}
-
-.acta-obs-box {
-    border: 1px solid #999;
-    padding: 10px;
-    min-height: 80px;
-    margin-top: 15px;
-}
-
-.acta-obs-title {
-    background: #e1e8ed;
-    padding: 5px;
-    font-weight: 700;
-    margin: -10px -10px 10px -10px;
-    border-bottom: 1px solid #999;
-    font-size: 11px;
-}
-
-.acta-firmas {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 40px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 11px;
-}
-
-.firma-line {
-    border-top: 1px solid #333;
-    width: 180px;
-    padding-top: 5px;
-}
-
-.acta-small-text {
-    font-size: 9px;
-    color: #444;
-    line-height: 1.4;
-    text-align: justify;
-    margin-bottom: 10px;
-}
-
-.acta-bold {
-    font-weight: 700;
-    font-size: 11px;
-    margin-bottom: 5px;
-    display: block;
-}
+/* --- FIRMAS --- */
+.acta-firmas { display: flex; justify-content: space-around; margin-top: 40px; text-align: center; font-weight: 700; font-size: 11px; }
+.firma-container { display: flex; flex-direction: column; align-items: center; width: 180px; }
+.firma-line { border-top: 1px solid #333; width: 100%; padding-top: 5px; }
+.firma-icon { color: var(--bbva-blue); font-size: 20px; margin-bottom: 5px; }
+.firma-icon-inline { color: var(--bbva-blue); }
+.firma-icon-transparent { color: transparent; font-size: 20px; margin-bottom: 5px; }

@@ -25,11 +25,10 @@
     <div class="bg-shape bg-shape-2"></div>
 
     <div class="main-layout">
-
         <!-- Tarjeta de consejo -->
         <div class="tip-card">
             <i class="fa-solid fa-lightbulb"></i>
-            <p id="tip-text"><strong>Consejo: </strong>Inica dando clic en <strong>REGISTRATE</strong></p>
+            <p id="tip-text"><strong>Consejo: </strong>Inicia dando clic en <strong>REGISTRATE</strong></p>
         </div>
 
         <!-- Columna Central -->
@@ -40,27 +39,24 @@
             </div>
 
             <div class="carousel-viewport" id="carousel">
-
                 <!-- SLIDE 1: LOGIN -->
                 <div class="slide active">
-                    <i class="fa-solid fa-lock slide-icon"
-                        style="font-size: 35px; color: var(--bbva-light-blue); margin-bottom: 10px;"></i>
+                    <i class="fa-solid fa-lock icon-main-lock"></i>
                     <h2>Acceso con contraseña</h2>
                     <div class="input-group">
                         <label>Nombre de usuario</label>
-                        <input type="text" value="" readonly style="background: #e6f0ff;">
+                        <input type="text" value="" readonly class="input-readonly">
                     </div>
                     <div class="input-group">
                         <label>Contraseña</label>
                         <input type="password" id="passInput" value="">
-                        <i class="fa-regular fa-eye toggle-password" onclick="togglePass()"
-                            style="position: absolute; right: 10px; top: 10px; cursor: pointer;"></i>
+                        <i class="fa-regular fa-eye toggle-password eye-icon" onclick="togglePass()"></i>
                     </div>
-                    <button class="btn-blue" style="margin-top: 5px;">Aceptar</button>
+                    <button class="btn-blue mt-5">Aceptar</button>
 
                     <div class="register-zone">
                         <div class="arrow-orange"><i class="fa-solid fa-arrow-up"></i></div>
-                        <span style="font-size: 12px; color: var(--text-gray);">¿No tienes cuenta? </span>
+                        <span class="text-small">¿No tienes cuenta? </span>
                         <a class="blue-link" onclick="goToSlide(1)">Regístrate</a>
                     </div>
                 </div>
@@ -79,13 +75,11 @@
                 <!-- SLIDE 3: CLAVE -->
                 <div class="slide">
                     <h2>Introduce la clave de activación</h2>
-                    <p class="subtitle">Te hemos enviado una clave a tu
-                        correo:<br><strong>ja************@gmail.com</strong></p>
+                    <p class="subtitle">Te hemos enviado una clave a tu correo:<br><strong>ja************@gmail.com</strong></p>
                     <div class="input-group">
                         <label>Clave de activación</label>
                         <input type="password" value="••••••••">
-                        <i class="fa-regular fa-eye"
-                            style="position: absolute; right: 10px; top: 10px; color: #666;"></i>
+                        <i class="fa-regular fa-eye eye-icon"></i>
                     </div>
                     <div class="btn-row">
                         <button class="btn-white">Volver a enviar</button>
@@ -96,15 +90,14 @@
                 <!-- SLIDE 4: TELÉFONO -->
                 <div class="slide">
                     <h2>Registra tu teléfono móvil</h2>
-                    <p class="subtitle" style="font-size: 12px;">Utilizaremos tu número para proteger el acceso a tu
-                        cuenta.</p>
+                    <p class="subtitle text-small">Utilizaremos tu número para proteger el acceso a tu cuenta.</p>
 
-                    <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-                        <div class="input-group" style="width: 30%; margin-bottom: 0;">
+                    <div class="phone-row">
+                        <div class="input-group w-30">
                             <label>País</label>
-                            <input type="text" value="🇵🇪 +51" readonly style="text-align: center;">
+                            <input type="text" value="🇵🇪 +51" readonly class="text-center">
                         </div>
-                        <div class="input-group" style="width: 70%; margin-bottom: 0;">
+                        <div class="input-group w-70">
                             <label>Número</label>
                             <input type="text" value="959595514">
                         </div>
@@ -112,18 +105,13 @@
 
                     <div class="checkbox-row">
                         <input type="checkbox" id="chkTerms" disabled>
-                        <span>Consiento a que BBVA trate mi teléfono móvil... <strong class="blue-link" id="termsLink"
-                                onclick="enableCheck()">Términos y condiciones de uso.</strong></span>
-
-                        <div class="arrow-terms" id="arrowTerms">
-                            <i class="fa-solid fa-arrow-up"></i>
-                        </div>
+                        <span>Consiento a que BBVA trate mi teléfono móvil... <strong class="blue-link" id="termsLink" onclick="enableCheck()">Términos y condiciones de uso.</strong></span>
+                        <div class="arrow-terms" id="arrowTerms"><i class="fa-solid fa-arrow-up"></i></div>
                     </div>
 
                     <div class="btn-row">
                         <button class="btn-white">Omitir</button>
-                        <button class="btn-blue" id="btnRegisterPhone" onclick="goToSlide(4)"
-                            disabled>Registrar</button>
+                        <button class="btn-blue" id="btnRegisterPhone" onclick="goToSlide(4)" disabled>Registrar</button>
                     </div>
                 </div>
 
@@ -131,13 +119,10 @@
                 <div class="slide">
                     <h2>Crea tu contraseña</h2>
                     <p class="subtitle">Exactamente <strong>8 caracteres</strong></p>
-
                     <div class="password-demo" id="passDemo">_ _ _ _ _ _ _ _</div>
-
                     <div class="alert-box">
                         <i class="fa-solid fa-circle-info"></i> Ejemplo: "ROSA" y "2008" = <strong>ro20sa08</strong>
                     </div>
-
                     <div class="input-group">
                         <label>Contraseña</label>
                         <input type="password" id="newPassInput" readonly>
@@ -147,41 +132,37 @@
 
                 <!-- SLIDE 6: ADVERTENCIA -->
                 <div class="slide">
-                    <i class="fa-solid fa-triangle-exclamation slide-icon" style="color: #dc3545; font-size: 45px;"></i>
-                    <h2 style="color: #dc3545;">¡Atención!</h2>
-                    <p class="subtitle">Una vez creada la contraseña <strong>no la olvides</strong>.<br><br>No intentes
-                        registrar tu huella aún, no tienes los permisos y <strong>bloquearás tu cuenta</strong>.</p>
+                    <i class="fa-solid fa-triangle-exclamation icon-warning"></i>
+                    <h2 class="text-danger">¡Atención!</h2>
+                    <p class="subtitle">Una vez creada la contraseña <strong>no la olvides</strong>.<br><br>No intentes registrar tu huella aún, no tienes los permisos y <strong>bloquearás tu cuenta</strong>.</p>
                     <button class="btn-blue" onclick="goToSlide(6)">Entendido</button>
                 </div>
 
                 <!-- SLIDE 7: ZSCALER -->
                 <div class="slide">
                     <h2>Acceso a la Intranet</h2>
-                    <p class="subtitle" style="font-size: 12px; text-align: left; margin-bottom: 10px;">
+                    <p class="subtitle text-left">
                         1. Ingresa a la intranet y loguéate con tu usuario y contraseña.<br>
                         2. Siempre usa el SMS.<br>
                         3. Llegarás a la ventana de <strong>Zscaler Launch</strong>.<br>
                         4. Haz clic en "Launch" 2 veces y espera que el icono parpadee.
                     </p>
-                    <div class="alert-box"
-                        style="background: #d1ecf1; color: #0c5460; border-color: #bee5eb; margin-bottom: 10px;">
+                    <div class="alert-box alert-info">
                         <strong>Estado Zscaler:</strong><br>
-                        Private Access <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i><br>
-                        Internet Security <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i><br>
-                        Digital Experience <i class="fa-solid fa-toggle-on" style="color: #10b981;"></i>
+                        Private Access <i class="fa-solid fa-toggle-on icon-on"></i><br>
+                        Internet Security <i class="fa-solid fa-toggle-on icon-on"></i><br>
+                        Digital Experience <i class="fa-solid fa-toggle-on icon-on"></i>
                     </div>
                     <button class="btn-blue" onclick="goToSlide(7)">Siguiente</button>
                 </div>
 
                 <!-- SLIDE 8: FIRMA DE ACTA -->
-                <div class="slide" style="padding: 15px;">
-                    <div
-                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                        <h2 style="font-size: 15px;">Firma de Acta</h2>
-                        <span style="font-size: 10px; color: var(--text-gray);">Completa las 3 páginas:</span>
+                <div class="slide slide-acta">
+                    <div class="acta-header-top">
+                        <h2 class="h2-acta">Firma de Acta</h2>
+                        <span class="text-xs">Completa las 3 páginas:</span>
                     </div>
 
-                    <!-- Pestañas en el nuevo orden -->
                     <div class="acta-tabs">
                         <div class="acta-tab active" onclick="showActaPage(1)">1. Artículos</div>
                         <div class="acta-tab" onclick="showActaPage(2)">2. Info Importante</div>
@@ -189,176 +170,73 @@
                     </div>
 
                     <div class="acta-container">
-
                         <!-- PÁGINA 1: ARTÍCULOS ENTREGADOS -->
                         <div class="acta-page active" id="actaPage1">
                             <div class="acta-header">
                                 <div class="acta-logo-bbva">BBVA</div>
-                                <div class="acta-logo-bvs"><strong>BVS</strong><span>Conocimiento & Tecnología</span>
-                                </div>
+                                <div class="acta-logo-bvs"><strong>BVS</strong><span>Conocimiento & Tecnología</span></div>
                             </div>
                             <div class="acta-title">TÉRMINOS Y CONDICIONES DE USO DE EQUIPOS</div>
 
                             <div class="acta-small-text">
-                                El presente documento tiene por objetivo explicar a los usuarios los términos y
-                                condiciones de uso de los equipos microinformáticos, por lo que es importante la lectura
-                                de todo el documento y la firma de aceptación.
+                                El presente documento tiene por objetivo explicar a los usuarios los términos y condiciones de uso de los equipos microinformáticos, por lo que es importante la lectura de todo el documento y la firma de aceptación.
                                 <br><br>
-                                <strong>Lineamientos Generales:</strong> Este dispositivo está orientado a brindar
-                                portabilidad de archivos, documentos, herramientas de trabajo de sus usuarios y acceso a
-                                internet. Su uso en BBVA responde a la necesidad de facilitar las labores de sus
-                                colaboradores.
+                                <strong>Lineamientos Generales:</strong> Este dispositivo está orientado a brindar portabilidad de archivos, documentos, herramientas de trabajo de sus usuarios y acceso a internet. Su uso en BBVA responde a la necesidad de facilitar las labores de sus colaboradores.
                             </div>
 
                             <div class="acta-bold">Contenido de la Entrega:</div>
                             <table class="acta-table">
                                 <thead>
-                                    <tr>
-                                        <th>Tipo de Equipo</th>
-                                        <th>Placa / Serie</th>
-                                        <th>Check</th>
-                                        <th>Observación</th>
-                                    </tr>
+                                    <tr><th>Tipo de Equipo</th><th>Placa / Serie</th><th>Check</th><th>Observación</th></tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Desktop</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Laptop</td>
-                                        <td>5CD******</td>
-                                        <td><i class="fa-solid fa-check" style="color: #004481; font-size: 12px;"></i>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mochila o maletin</td>
-                                        <td></td>
-                                        <td><i class="fa-solid fa-check" style="color: #004481; font-size: 12px;"></i>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cargador de corriente</td>
-                                        <td></td>
-                                        <td><i class="fa-solid fa-check" style="color: #004481; font-size: 12px;"></i>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cadena de Seguridad</td>
-                                        <td></td>
-                                        <td><i class="fa-solid fa-check" style="color: #004481; font-size: 12px;"></i>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Adaptador</td>
-                                        <td></td>
-                                        <td><i class="fa-solid fa-check" style="color: #004481; font-size: 12px;"></i>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mouse alámbrico</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mouse inalámbrico</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Auriculares alámbricos</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Auriculares inalámbricos</td>
-                                        <td></td>
-                                        <td><i class="fa-solid fa-check" style="color: #004481; font-size: 12px;"></i>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Otro</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <tr><td>Desktop</td><td></td><td></td><td></td></tr>
+                                    <tr><td>Laptop</td><td>5CD******</td><td><i class="fa-solid fa-check check-icon"></i></td><td></td></tr>
+                                    <tr><td>Mochila o maletin</td><td></td><td><i class="fa-solid fa-check check-icon"></i></td><td></td></tr>
+                                    <tr><td>Cargador de corriente</td><td></td><td><i class="fa-solid fa-check check-icon"></i></td><td></td></tr>
+                                    <tr><td>Cadena de Seguridad</td><td></td><td><i class="fa-solid fa-check check-icon"></i></td><td></td></tr>
+                                    <tr><td>Adaptador</td><td></td><td><i class="fa-solid fa-check check-icon"></i></td><td></td></tr>
+                                    <tr><td>Mouse alámbrico</td><td></td><td></td><td></td></tr>
+                                    <tr><td>Mouse inalámbrico</td><td></td><td></td><td></td></tr>
+                                    <tr><td>Auriculares alámbricos</td><td></td><td></td><td></td></tr>
+                                    <tr><td>Auriculares inalámbricos</td><td></td><td><i class="fa-solid fa-check check-icon"></i></td><td></td></tr>
+                                    <tr><td>Otro</td><td></td><td></td><td></td></tr>
                                 </tbody>
                             </table>
-                            <div style="margin-top: 10px; width: 60%;">
+                            <div class="acta-table-container">
                                 <table class="acta-table">
-                                    <tr>
-                                        <td style="font-weight: 700; width: 30%;">Ticket</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-weight: 700;">Registro</td>
-                                        <td>P0XXXXX</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-weight: 700;">Firma</td>
-                                        <td style="text-align: center; color: #999;"><i
-                                                class="fa-solid fa-signature"></i></td>
-                                    </tr>
-                                    </td>
-                                    </tr>
+                                    <tr><td class="acta-table-label">Ticket</td><td></td></tr>
+                                    <tr><td class="acta-table-label">Registro</td><td>P0XXXXX</td></tr>
+                                    <tr><td class="acta-table-label">Firma</td><td class="acta-table-center"><i class="fa-solid fa-signature"></i></td></tr>
                                 </table>
                             </div>
                         </div>
 
                         <!-- PÁGINA 2: INFORMACIÓN IMPORTANTE -->
                         <div class="acta-page" id="actaPage2">
-                            <div class="acta-bold"
-                                style="font-size: 12px; margin-bottom: 10px; text-transform: uppercase;">Información
-                                Importante</div>
+                            <div class="acta-bold text-uppercase">Información Importante</div>
 
                             <div class="acta-small-text">
-                                <strong>1. Software Estándar en BBVA Perú.</strong> Además del software instalado en el
-                                equipo, se le apoyará en la instalación de aplicativos de la intranet corporativa para
-                                BBVA Continental, para cumplir el objetivo de incrementar la productividad.
+                                <strong>1. Software Estándar en BBVA Perú.</strong> Además del software instalado en el equipo, se le apoyará en la instalación de aplicativos de la intranet corporativa para BBVA Continental, para cumplir el objetivo de incrementar la productividad.
                                 <br><br>
-                                <strong>2. Garantía.</strong> Los equipos cuentan con garantía de 5 años, esta garantía
-                                se pierde si el equipo presenta señales de haber tenido un uso inadecuado o haber
-                                sufrido daños, señales de humedad o haber sido manipulado por personal no autorizado...
+                                <strong>2. Garantía.</strong> Los equipos cuentan con garantía de 5 años, esta garantía se pierde si el equipo presenta señales de haber tenido un uso inadecuado o haber sufrido daños, señales de humedad o haber sido manipulado por personal no autorizado...
                                 <br><br>
-                                <strong>3. Pérdida o Deterioro por uso inadecuado del Equipo.</strong> Es de entera
-                                responsabilidad del Colaborador el cuidado del equipo, por ello: En caso de avería del
-                                equipo asignado por uso inadecuado (caída, golpe externo, daño en la pantalla, teclado,
-                                derrame de líquidos, entre otros) el banco realizará la reparación del mismo, cuyo costo
-                                será imputado al centro de costos de la unidad respectiva.
+                                <strong>3. Pérdida o Deterioro por uso inadecuado del Equipo.</strong> Es de entera responsabilidad del Colaborador el cuidado del equipo, por ello: En caso de avería del equipo asignado por uso inadecuado (caída, golpe externo, daño en la pantalla, teclado, derrame de líquidos, entre otros) el banco realizará la reparación del mismo, cuyo costo será imputado al centro de costos de la unidad respectiva.
                                 <br><br>
-                                <strong>4. Hurto o Robo del equipo.</strong> Ante una situación de hurto o robo el
-                                colaborador deberá sentar la denuncia en la comisaría respectiva y presentar la copia de
-                                esta a la unidad que el Banco establezca para dicho fin.
+                                <strong>4. Hurto o Robo del equipo.</strong> Ante una situación de hurto o robo el colaborador deberá sentar la denuncia en la comisaría respectiva y presentar la copia de esta a la unidad que el Banco establezca para dicho fin.
                                 <br><br>
-                                <strong>5. Ejecución de garantía, pérdida, robo.</strong> Los tiempos de reposición
-                                serán en función a los procesos logísticos (reparación o compra).
+                                <strong>5. Ejecución de garantía, pérdida, robo.</strong> Los tiempos de reposición serán en función a los procesos logísticos (reparación o compra).
                                 <br><br>
-                                <strong>6. Con la firma del presente documento.</strong> Usted acepta que el equipo que
-                                le es entregado como herramienta de trabajo, debe ser utilizado exclusivamente para el
-                                desarrollo de sus funciones laborales, por lo que se compromete a no utilizar el equipo
-                                indebidamente y sin autorización para fines personales o ajenos a sus labores.
+                                <strong>6. Con la firma del presente documento.</strong> Usted acepta que el equipo que le es entregado como herramienta de trabajo, debe ser utilizado exclusivamente para el desarrollo de sus funciones laborales, por lo que se compromete a no utilizar el equipo indebidamente y sin autorización para fines personales o ajenos a sus labores.
                             </div>
 
-                            <div style="margin-top: 20px; font-size: 9px; line-height: 1.6;">
-                                <div class="acta-data-row" style="font-weight: normal;">
-                                    <strong>Yo</strong> <span>Jav**** ****** ****** ******</span>, declaro haber leído
-                                    el presente documento y estar de acuerdo con TODO su contenido.
+                            <div class="acta-declaration">
+                                <div class="acta-data-row text-normal">
+                                    <strong>Yo</strong> <span>Jav**** ****** ****** ******</span>, declaro haber leído el presente documento y estar de acuerdo con TODO su contenido.
                                 </div>
                                 <div class="acta-data-row">Fecha: <span>01 / 01 / 2026</span></div>
                                 <div class="acta-data-row">Registro: <span>P0XXXXX</span></div>
-                                <div class="acta-data-row">Firma: <span> <i class="fa-solid fa-signature"></i> </span>
-                                </div>
+                                <div class="acta-data-row">Firma: <span><i class="fa-solid fa-signature firma-icon-inline"></i></span></div>
                             </div>
                         </div>
 
@@ -366,30 +244,23 @@
                         <div class="acta-page" id="actaPage3">
                             <div class="acta-header">
                                 <div class="acta-logo-bbva">BBVA</div>
-                                <div class="acta-logo-bvs"><strong>BVS</strong><span>Conocimiento & Tecnología</span>
-                                </div>
+                                <div class="acta-logo-bvs"><strong>BVS</strong><span>Conocimiento & Tecnología</span></div>
                             </div>
-
                             <div class="acta-title">Acta de conformidad - Atención por Onboarding</div>
 
-                            <div style="margin-bottom: 15px;">
+                            <div class="acta-data-group">
                                 <div class="acta-data-row">Usuario: <span>Jav*** ****** ****** ******</span></div>
                                 <div class="acta-data-row">Registro: <span>P0XXXXX</span></div>
                                 <div class="acta-data-row">Ticket: <span></span></div>
                                 <div class="acta-data-row">Fecha: <span>01/01/2026</span></div>
                             </div>
 
-                            <div style="font-size: 10px; line-height: 1.6; margin-bottom: 15px; padding-left: 10px;">
-                                1. <strong>Perfil de usuario:</strong> Ingreso al equipo microinformático con el perfil
-                                correspondiente.<br>
-                                2. <strong>Entorno colaborativo:</strong> Registro y cambio de contraseña del
-                                P-registro.<br>
-                                3. <strong>Funcionalidades google:</strong> Validación de los aplicativos como gmail,
-                                chat y calendar.<br>
-                                4. <strong>Configuración de zscaler:</strong> Enrolamiento y configuración del agente
-                                zscaler.<br>
-                                5. <strong>Conectividad a red BBVA Global:</strong> Validar con el usuario la correcta
-                                conectividad a la wifi corporativa de BBVA.
+                            <div class="acta-list">
+                                1. <strong>Perfil de usuario:</strong> Ingreso al equipo microinformático con el perfil correspondiente.<br>
+                                2. <strong>Entorno colaborativo:</strong> Registro y cambio de contraseña del P-registro.<br>
+                                3. <strong>Funcionalidades google:</strong> Validación de los aplicativos como gmail, chat y calendar.<br>
+                                4. <strong>Configuración de zscaler:</strong> Enrolamiento y configuración del agente zscaler.<br>
+                                5. <strong>Conectividad a red BBVA Global:</strong> Validar con el usuario la correcta conectividad a la wifi corporativa de BBVA.
                             </div>
 
                             <div class="acta-obs-box">
@@ -397,44 +268,28 @@
                             </div>
 
                             <div class="acta-firmas">
-                                <!-- Contenedor para la primera firma -->
-                                <div style="display: flex; flex-direction: column; align-items: center; width: 180px;">
-                                    <i class="fa-solid fa-signature"
-                                        style="color: #000000; font-size: 20px; margin-bottom: 5px;"></i>
-                                    <div class="firma-line"
-                                        style="border-top: 1px solid #333; width: 100%; padding-top: 5px;">Firma del
-                                        colaborador</div>
+                                <div class="firma-container">
+                                    <i class="fa-solid fa-signature firma-icon"></i>
+                                    <div class="firma-line">Firma del colaborador</div>
                                 </div>
-
-                                <!-- Contenedor para la segunda firma (por si quieres el icono también) -->
-                                <div style="display: flex; flex-direction: column; align-items: center; width: 180px;">
-                                    <i class="fa-solid fa-pen-nib"
-                                        style="color: #00000000; font-size: 20px; margin-bottom: 5px;"></i>
-                                    <div class="firma-line"
-                                        style="border-top: 1px solid #333; width: 100%; padding-top: 5px;">Firma de
-                                        Soporte Onsite</div>
+                                <div class="firma-container">
+                                    <i class="fa-solid fa-pen-nib firma-icon-transparent"></i>
+                                    <div class="firma-line">Firma de Soporte Onsite</div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
 
             <!-- Controles -->
             <div class="carousel-controls">
-                <button class="nav-btn" id="prevBtn" onclick="prevSlide()"><i
-                        class="fa-solid fa-chevron-left"></i></button>
+                <button class="nav-btn" id="prevBtn" onclick="prevSlide()"><i class="fa-solid fa-chevron-left"></i></button>
                 <div class="dots-container" id="dotsContainer"></div>
-                <button class="nav-btn" id="nextBtn" onclick="nextSlide()"><i
-                        class="fa-solid fa-chevron-right"></i></button>
+                <button class="nav-btn" id="nextBtn" onclick="nextSlide()"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </div>
-
     </div>
-
+    <script src="app.js"></script>
 </body>
-<script src="app.js"></script>
-
 </html>
