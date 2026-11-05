@@ -7,656 +7,10 @@
     <title>BBVA - Simulador de Registro y Onboarding (Guía)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --bbva-blue: #072146;
-            --bbva-light-blue: #00a3e0;
-            --bbva-bg: #f4f7f9;
-            --accent-orange: #ff6b00;
-            --text-gray: #666;
-            --btn-blue: #004481;
-            --bvs-blue: #005ca9;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Open Sans', sans-serif;
-        }
-
-        body {
-            background-color: var(--bbva-bg);
-            height: 100vh;
-            overflow: hidden;
-            /* Evita scroll global */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-
-        /* --- BANNER DE ADVERTENCIA --- */
-        .warning-banner {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffeeba;
-            color: #856404;
-            text-align: center;
-            padding: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            z-index: 100;
-            border-bottom: 2px solid #ffc107;
-        }
-
-        /* --- BOTÓN INTRANET REAL --- */
-        .btn-intranet {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
-            z-index: 100;
-            transition: transform 0.2s, background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-intranet:hover {
-            background-color: #c82333;
-            transform: scale(1.05);
-        }
-
-        /* --- DECORACIÓN DE FONDO --- */
-        .bg-shape {
-            position: absolute;
-            border-radius: 50%;
-            z-index: 0;
-        }
-
-        .bg-shape-1 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 163, 224, 0.1) 0%, rgba(244, 247, 249, 0) 70%);
-            top: -100px;
-            left: -100px;
-        }
-
-        .bg-shape-2 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(7, 33, 70, 0.05) 0%, rgba(244, 247, 249, 0) 70%);
-            bottom: -150px;
-            right: -100px;
-        }
-
-        /* --- CONTENEDOR PRINCIPAL COMPACTO --- */
-        .main-layout {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 30px;
-            z-index: 10;
-            width: 100%;
-            max-width: 1000px;
-            padding: 0 20px;
-            margin-top: 30px;
-            /* Espacio por el banner */
-        }
-
-        /* --- TARJETA DE CONSEJO (Izquierda) --- */
-        .tip-card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-            width: 220px;
-            border-left: 4px solid var(--accent-orange);
-            animation: float 4s ease-in-out infinite;
-            flex-shrink: 0;
-            position: absolute;
-            top: 50%;
-            left: 100px;
-        }
-
-        .tip-card i {
-            color: var(--accent-orange);
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .tip-card p {
-            font-size: 12px;
-            color: var(--text-gray);
-            line-height: 1.4;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        /* --- COLUMNA CENTRAL (Logos + Carrusel) --- */
-        .center-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex-grow: 1;
-        }
-
-        .header-logos {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .bbva-logo {
-            color: var(--bbva-blue);
-            font-size: 36px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1;
-        }
-
-        .subtitle-top {
-            color: var(--bbva-blue);
-            font-size: 16px;
-            font-weight: 700;
-            margin-top: 2px;
-        }
-
-        /* --- CARRUSEL COMPACTO --- */
-        .carousel-viewport {
-            width: 520px;
-            height: 440px;
-            position: relative;
-        }
-
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            opacity: 0;
-            transform: translateX(20px) scale(0.98);
-            pointer-events: none;
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .slide.active {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-            pointer-events: auto;
-            z-index: 2;
-        }
-
-        h2 {
-            color: var(--bbva-blue);
-            font-size: 18px;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .subtitle {
-            font-size: 13px;
-            color: var(--text-gray);
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-
-        /* Inputs Compactos */
-        .input-group {
-            position: relative;
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .input-group label {
-            position: absolute;
-            top: -7px;
-            left: 10px;
-            background: white;
-            padding: 0 4px;
-            font-size: 11px;
-            color: var(--bbva-blue);
-            font-weight: 600;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #a3b0be;
-            border-radius: 6px;
-            background-color: transparent;
-            font-size: 14px;
-            color: var(--bbva-blue);
-            outline: none;
-            transition: border 0.3s;
-        }
-
-        .input-group input:focus {
-            border-color: var(--bbva-blue);
-        }
-
-        /* Botones Compactos */
-        .btn-blue {
-            background-color: var(--btn-blue);
-            color: white;
-            border: none;
-            padding: 10px 0;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s;
-        }
-
-        .btn-blue:hover {
-            background-color: var(--bbva-blue);
-        }
-
-        .btn-blue:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .btn-white {
-            background-color: #f4f7f9;
-            color: var(--btn-blue);
-            border: none;
-            padding: 10px 0;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        .btn-row {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-row .btn-blue,
-        .btn-row .btn-white {
-            flex: 1;
-        }
-
-        /* Texto Azul Clickable */
-        .blue-link {
-            color: var(--bbva-light-blue);
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .blue-link:hover {
-            color: var(--bbva-blue);
-        }
-
-        /* Checkbox */
-        .checkbox-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            margin-bottom: 15px;
-            text-align: left;
-            position: relative;
-        }
-
-        .checkbox-row input {
-            width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            cursor: pointer;
-        }
-
-        .checkbox-row span {
-            font-size: 12px;
-            color: var(--text-gray);
-            line-height: 1.3;
-        }
-
-        /* Flecha animada para el check */
-        .arrow-terms {
-            position: absolute;
-            right: 40px;
-            bottom: -12px;
-            font-size: 24px;
-            color: var(--accent-orange);
-            transform: rotate(-45deg);
-            animation: bounceDiag 1s infinite;
-        }
-
-        @keyframes bounceDiag {
-
-            0%,
-            100% {
-                transform: translate(0, 0) rotate(-45deg);
-            }
-
-            50% {
-                transform: translate(-4px, -4px) rotate(-45deg);
-            }
-        }
-
-        /* Animación Contraseña */
-        .password-demo {
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--bbva-light-blue);
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            height: 30px;
-        }
-
-        /* Flecha de registro naranja */
-        .arrow-orange {
-            position: absolute;
-            right: 36%;
-            top: -20px;
-            font-size: 20px;
-            color: var(--accent-orange);
-            animation: bounceDown 1s infinite;
-        }
-
-        @keyframes bounceDown {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(5px);
-            }
-        }
-
-        .register-zone {
-            margin-top: 15px;
-            position: relative;
-        }
-
-        /* Caja de aviso */
-        .alert-box {
-            background: #fff3cd;
-            color: #856404;
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            margin-bottom: 12px;
-            border: 1px solid #ffeeba;
-            text-align: left;
-        }
-
-        /* Controles del Carrusel */
-        .carousel-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        .nav-btn {
-            background: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            color: var(--bbva-blue);
-            font-size: 14px;
-            cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .nav-btn:hover {
-            background: var(--bbva-blue);
-            color: white;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .dots-container {
-            display: flex;
-            gap: 6px;
-        }
-
-        .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #d1d9e2;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .dot.active {
-            background: var(--bbva-light-blue);
-            width: 20px;
-            border-radius: 4px;
-        }
-
-        /* =========================================
-           ESTILOS DEL ACTA (HOJA A4 COMPACTA)
-           ========================================= */
-        .acta-container {
-            text-align: left;
-            font-size: 10px;
-            color: #333;
-            height: 85%;
-            display: flex;
-            flex-direction: column;
-            background: #fff;
-            padding: 5px;
-        }
-
-        .acta-tabs {
-            display: flex;
-            gap: 4px;
-            margin-bottom: 10px;
-        }
-
-        .acta-tab {
-            padding: 6px 12px;
-            background: #e1e8ed;
-            border-radius: 4px 4px 0 0;
-            cursor: pointer;
-            font-weight: 700;
-            color: var(--text-gray);
-            font-size: 11px;
-        }
-
-        .acta-tab.active {
-            background: white;
-            color: var(--bbva-blue);
-            border-top: 2px solid var(--bbva-blue);
-        }
-
-        /* Contenedor que simula la hoja A4 */
-        .acta-page {
-            display: none;
-            flex-grow: 1;
-            overflow-y: auto;
-            padding-right: 5px;
-            background: #fdfdfd;
-            border: 1px solid #ddd;
-            padding: 15px;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.02);
-        }
-
-        .acta-page.active {
-            display: block;
-        }
-
-        .acta-page::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .acta-page::-webkit-scrollbar-thumb {
-            background: #ccc;
-            border-radius: 2px;
-        }
-
-        .acta-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #004481;
-            padding-bottom: 5px;
-            margin-bottom: 15px;
-        }
-
-        .acta-logo-bbva {
-            font-size: 26px;
-            font-weight: 800;
-            color: #004481;
-            letter-spacing: -1px;
-        }
-
-        .acta-logo-bvs {
-            text-align: right;
-        }
-
-        .acta-logo-bvs strong {
-            font-size: 22px;
-            color: var(--bvs-blue);
-        }
-
-        .acta-logo-bvs span {
-            font-size: 8px;
-            display: block;
-            color: #666;
-            margin-top: -3px;
-        }
-
-        .acta-title {
-            text-align: center;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 15px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-
-        .acta-data-row {
-            margin-bottom: 8px;
-            font-weight: 700;
-            color: #333;
-            font-size: 11px;
-        }
-
-        .acta-data-row span {
-            font-weight: 400;
-            border-bottom: 1px solid #999;
-            display: inline-block;
-            width: 200px;
-            margin-left: 5px;
-        }
-
-        .acta-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-            font-size: 10px;
-        }
-
-        .acta-table th,
-        .acta-table td {
-            border: 1px solid #999;
-            padding: 5px;
-        }
-
-        .acta-table th {
-            background-color: #4a7ebb;
-            color: white;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .acta-obs-box {
-            border: 1px solid #999;
-            padding: 10px;
-            min-height: 80px;
-            margin-top: 15px;
-        }
-
-        .acta-obs-title {
-            background: #e1e8ed;
-            padding: 5px;
-            font-weight: 700;
-            margin: -10px -10px 10px -10px;
-            border-bottom: 1px solid #999;
-            font-size: 11px;
-        }
-
-        .acta-firmas {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 40px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 11px;
-        }
-
-        .firma-line {
-            border-top: 1px solid #333;
-            width: 180px;
-            padding-top: 5px;
-        }
-
-        .acta-small-text {
-            font-size: 9px;
-            color: #444;
-            line-height: 1.4;
-            text-align: justify;
-            margin-bottom: 10px;
-        }
-
-        .acta-bold {
-            font-weight: 700;
-            font-size: 11px;
-            margin-bottom: 5px;
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
     <!-- BANNER DE ADVERTENCIA -->
     <div class="warning-banner">
         <i class="fa-solid fa-triangle-exclamation"></i> ESTO ES UNA GUÍA. No intentes registrarte aquí.
@@ -675,8 +29,7 @@
         <!-- Tarjeta de consejo -->
         <div class="tip-card">
             <i class="fa-solid fa-lightbulb"></i>
-            <p id="tip-text"><strong>Consejo:</strong> Sigue los tips al pie de la letra. En el banco, la seguridad es
-                primero.</p>
+            <p id="tip-text"><strong>Consejo: </strong>Inica dando clic en <strong>REGISTRATE</strong></p>
         </div>
 
         <!-- Columna Central -->
@@ -706,7 +59,7 @@
                     <button class="btn-blue" style="margin-top: 5px;">Aceptar</button>
 
                     <div class="register-zone">
-                        <div class="arrow-orange"><i class="fa-solid fa-arrow-down"></i></div>
+                        <div class="arrow-orange"><i class="fa-solid fa-arrow-up"></i></div>
                         <span style="font-size: 12px; color: var(--text-gray);">¿No tienes cuenta? </span>
                         <a class="blue-link" onclick="goToSlide(1)">Regístrate</a>
                     </div>
@@ -763,7 +116,7 @@
                                 onclick="enableCheck()">Términos y condiciones de uso.</strong></span>
 
                         <div class="arrow-terms" id="arrowTerms">
-                            <i class="fa-solid fa-arrow-turn-up"></i>
+                            <i class="fa-solid fa-arrow-up"></i>
                         </div>
                     </div>
 
@@ -777,8 +130,7 @@
                 <!-- SLIDE 5: CONTRASEÑA -->
                 <div class="slide">
                     <h2>Crea tu contraseña</h2>
-                    <p class="subtitle">Exactamente <strong>8 caracteres</strong>.<br>Tip: 2 letras, 2 números, 2
-                        letras, 2 números.</p>
+                    <p class="subtitle">Exactamente <strong>8 caracteres</strong></p>
 
                     <div class="password-demo" id="passDemo">_ _ _ _ _ _ _ _</div>
 
@@ -787,7 +139,7 @@
                     </div>
 
                     <div class="input-group">
-                        <label>Nueva Contraseña</label>
+                        <label>Contraseña</label>
                         <input type="password" id="newPassInput" readonly>
                     </div>
                     <button class="btn-blue" onclick="goToSlide(5)">Continuar</button>
@@ -998,20 +350,15 @@
                                 indebidamente y sin autorización para fines personales o ajenos a sus labores.
                             </div>
 
-                            <div style="margin-top: 20px; font-size: 10px; line-height: 1.6;">
-                                Yo <span style="border-bottom: 1px solid #999; display: inline-block; width: 10px;"></span>
-                                Jav**** ****** ****** ******
-                                <span style="border-bottom: 1px solid #999; display: inline-block; width: 140px;"></span>
-                                , declaro haber leído el presente documento y estar de acuerdo con TODO su contenido.
-                                <br><br>
-                                Fecha: 01/01/2026
-                                <span style="border-bottom: 1px solid #999; display: inline-block; width: 100px;"></span>
-                                <br><br>
-                                Registro: P0XXXXX
-                                <span style="border-bottom: 1px solid #999; display: inline-block; width: 100px;"></span>
-                                <br><br>
-                                Firma: <i class="fa-solid fa-signature"></i>
-                                <span style="border-bottom: 1px solid #999; display: inline-block; width: 142px;"></span>
+                            <div style="margin-top: 20px; font-size: 9px; line-height: 1.6;">
+                                <div class="acta-data-row" style="font-weight: normal;">
+                                    <strong>Yo</strong> <span>Jav**** ****** ****** ******</span>, declaro haber leído
+                                    el presente documento y estar de acuerdo con TODO su contenido.
+                                </div>
+                                <div class="acta-data-row">Fecha: <span>01 / 01 / 2026</span></div>
+                                <div class="acta-data-row">Registro: <span>P0XXXXX</span></div>
+                                <div class="acta-data-row">Firma: <span> <i class="fa-solid fa-signature"></i> </span>
+                                </div>
                             </div>
                         </div>
 
@@ -1026,10 +373,10 @@
                             <div class="acta-title">Acta de conformidad - Atención por Onboarding</div>
 
                             <div style="margin-bottom: 15px;">
-                                <div class="acta-data-row">Usuario: <span></span></div>
-                                <div class="acta-data-row">Registro: <span></span></div>
+                                <div class="acta-data-row">Usuario: <span>Jav*** ****** ****** ******</span></div>
+                                <div class="acta-data-row">Registro: <span>P0XXXXX</span></div>
                                 <div class="acta-data-row">Ticket: <span></span></div>
-                                <div class="acta-data-row">Fecha: <span></span></div>
+                                <div class="acta-data-row">Fecha: <span>01/01/2026</span></div>
                             </div>
 
                             <div style="font-size: 10px; line-height: 1.6; margin-bottom: 15px; padding-left: 10px;">
@@ -1050,8 +397,23 @@
                             </div>
 
                             <div class="acta-firmas">
-                                <div class="firma-line">Firma del colaborador</div>
-                                <div class="firma-line">Firma de Soporte Onsite</div>
+                                <!-- Contenedor para la primera firma -->
+                                <div style="display: flex; flex-direction: column; align-items: center; width: 180px;">
+                                    <i class="fa-solid fa-signature"
+                                        style="color: #000000; font-size: 20px; margin-bottom: 5px;"></i>
+                                    <div class="firma-line"
+                                        style="border-top: 1px solid #333; width: 100%; padding-top: 5px;">Firma del
+                                        colaborador</div>
+                                </div>
+
+                                <!-- Contenedor para la segunda firma (por si quieres el icono también) -->
+                                <div style="display: flex; flex-direction: column; align-items: center; width: 180px;">
+                                    <i class="fa-solid fa-pen-nib"
+                                        style="color: #00000000; font-size: 20px; margin-bottom: 5px;"></i>
+                                    <div class="firma-line"
+                                        style="border-top: 1px solid #333; width: 100%; padding-top: 5px;">Firma de
+                                        Soporte Onsite</div>
+                                </div>
                             </div>
                         </div>
 
@@ -1072,125 +434,7 @@
 
     </div>
 
-    <script>
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.slide');
-        const dotsContainer = document.getElementById('dotsContainer');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const tipText = document.getElementById('tip-text');
-        const arrowTerms = document.getElementById('arrowTerms');
-
-        const tips = [
-            "Ingresa con tu usuario asignado. Si no lo tienes, consulta con tu equipo.",
-            "Recuerda que es un cero, se le suele llamar P0, usuario o registro. Se ubica en el sticker del equipo o en tu gafete.",
-            "Revisa el correo que debe coincidir con las iniciales (ej. si sale 'ja', busca el que empiece con 'ja'). Si no aparece tu correo ja****, es porque ingresaste mal tu P0.",
-            "Haz clic primero en el texto azul 'Términos y condiciones' para desbloquear el check.",
-            "Sigue la regla: 2 letras, 2 números, 2 letras, 2 números. ¡No la olvides!",
-            "No intentes registrar huella en este paso, podrías bloquear tu cuenta temporalmente.",
-            "Asegúrate de que Zscaler muestre 'ON' en verde antes de abrir la intranet.",
-            "Revisa las 3 páginas del acta. Usa el archivo 'info laptop' del escritorio para llenar la serie."
-        ];
-
-        slides.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.onclick = () => goToSlide(index);
-            dotsContainer.appendChild(dot);
-        });
-
-        const dots = document.querySelectorAll('.dot');
-
-        function goToSlide(index) {
-            if (index < 0 || index >= slides.length) return;
-
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-
-            currentSlide = index;
-
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-
-            tipText.innerHTML = `<strong>Consejo:</strong> ${tips[currentSlide]}`;
-
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === slides.length - 1;
-
-            if (index === 4) {
-                animatePassword();
-            }
-        }
-
-        function nextSlide() { goToSlide(currentSlide + 1); }
-        function prevSlide() { goToSlide(currentSlide - 1); }
-
-        function enableCheck() {
-            const chk = document.getElementById('chkTerms');
-            const btn = document.getElementById('btnRegisterPhone');
-            chk.disabled = false;
-
-            if (arrowTerms) {
-                arrowTerms.style.display = 'none';
-            }
-
-            chk.addEventListener('change', function () {
-                btn.disabled = !this.checked;
-            });
-        }
-
-        function animatePassword() {
-            const demo = document.getElementById('passDemo');
-            const input = document.getElementById('newPassInput');
-            const targetText = "ro20sa08";
-            let i = 0;
-
-            demo.innerHTML = "_ _ _ _ _ _ _ _";
-            input.value = "";
-
-            const interval = setInterval(() => {
-                if (i < targetText.length) {
-                    let currentDisplay = demo.innerHTML.split(' ');
-                    currentDisplay[i] = targetText[i];
-                    demo.innerHTML = currentDisplay.join(' ');
-                    input.value += targetText[i];
-                    i++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 400);
-        }
-
-        function togglePass() {
-            const input = document.getElementById('passInput');
-            const icon = document.querySelector('.toggle-password');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        }
-
-        function showActaPage(pageNumber) {
-            // Ocultar todas las páginas
-            document.getElementById('actaPage1').classList.remove('active');
-            document.getElementById('actaPage2').classList.remove('active');
-            document.getElementById('actaPage3').classList.remove('active');
-
-            // Quitar clase active de todas las pestañas
-            document.querySelectorAll('.acta-tab').forEach(tab => tab.classList.remove('active'));
-
-            // Mostrar la página seleccionada y activar su pestaña
-            document.getElementById('actaPage' + pageNumber).classList.add('active');
-            document.querySelectorAll('.acta-tab')[pageNumber - 1].classList.add('active');
-        }
-
-        prevBtn.disabled = true;
-    </script>
 </body>
+<script src="app.js"></script>
 
 </html>
-```
